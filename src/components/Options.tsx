@@ -1,11 +1,11 @@
 import { Settings } from "lucide-react";
 import { useState } from "react";
-import { presets, separator } from "../lib/presets";
+import { groupedPresets, separator } from "../lib/presets";
 import { useChessClock } from "../hooks/useChessClock";
 
 export function Options() {
   const [isOpen, setIsOpen] = useState(false);
-  const [tab, setTab] = useState("bullet");
+  const [tab, setTab] = useState("presets");
   const setConfig = useChessClock((state) => state.setConfig);
   const reset = useChessClock((state) => state.reset);
 
@@ -30,48 +30,55 @@ export function Options() {
             paddingTop: "env(safe-area-inset-top)",
             paddingBottom: "env(safe-area-inset-bottom)",
           }}
-          className="flex-1 overflow-y-auto px-6 pt-4 pb-24"
+          className="flex flex-col w-full flex-1 overflow-y-auto px-6 pt-4 pb-24"
         >
-          <div className="max-w-2xl mx-auto py-4">
-            {/* CONTENT GOES HERE */}
+          <div className="flex flex-col relative w-full max-w-2xl mx-auto pt-4 flex-1">
             <Tabs
-              tabs={["bullet", "blitz", "rapid", "custom"]}
+              tabs={["presets", "custom"]}
               setTab={setTab}
               selectedTab={tab}
             />
             <div
-              className={`grid grid-cols-1 gap-2 pt-4 ${
-                ["custom"].includes(tab) ? "hidden" : ""
+              className={`grid grid-cols-1 gap-6 pt-4 ${
+                tab === "presets" ? "" : "hidden"
               }`}
             >
-              {presets
-                .filter((p) => p.group === tab)
-                .map((preset) => (
-                  <button
-                    className="text-xl bg-gray-600 py-4 rounded-xl"
-                    key={preset.name}
-                    onClick={() => {
-                      setConfig(preset);
-                      reset();
-                      setIsOpen(false);
-                    }}
-                  >
-                    {preset.name}
-                  </button>
-                ))}
+              {groupedPresets.map(([group, presets]) => (
+                <div>
+                  <h2 className="text-lg font-semibold capitalize">{group}</h2>
+                  <div className="grid grid-cols-2 gap-y-4 gap-x-2 landscape:grid-cols-3">
+                    {presets.map((preset) => (
+                      <button
+                        className="text-xl bg-gray-600 py-4 rounded-xl w-full"
+                        onClick={() => {
+                          setConfig(preset);
+                          reset();
+                          setIsOpen(false);
+                        }}
+                      >
+                        {preset.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
             <div className={`pt-4 ${tab !== "custom" ? "hidden" : ""}`}>
               <CustomOptions close={() => setIsOpen(false)} />
             </div>
-            <div className="h-20"></div>
+            <div className="flex-1 min-h-6"></div>
+            <div className="sticky bottom-0 left-0 right-0 flex justify-center">
+              <div className="w-full max-w-2xl pb-4">
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="h-20 w-full bg-gray-900 max-w-2xl py-4 text-lg font-semibold text-center mx-auto rounded-4xl"
+                  aria-label="Close modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="absolute h-20 bottom-4 left-4 right-4 bg-gray-900 max-w-2xl py-4 text-lg font-semibold text-center mx-auto rounded-4xl"
-            aria-label="Close modal"
-          >
-            Close
-          </button>
         </div>
       </div>
     </>
@@ -85,7 +92,7 @@ type TabsProps = {
 };
 function Tabs({ tabs, setTab, selectedTab }: TabsProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 sticky top-0">
       {tabs.map((tab) => (
         <button
           key={tab}
