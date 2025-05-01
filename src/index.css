@@ -18,3 +18,16 @@ button {
   @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl;
   @apply portrait:text-7xl;
 }
+
+@keyframes spinSlowToStop {
+  0% {
+    transform: rotate(-1080deg);
+  }
+  100% {
+    transform: rotate(0deg); /* 2 full rotations */
+  }
+}
+
+.slow-stop {
+  animation: spinSlowToStop 4s cubic-bezier(0.05, 0.8, 0.4, 1) forwards;
+}
