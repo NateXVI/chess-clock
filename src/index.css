@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+html,
+body {
+  @apply bg-gray-800;
+}
+
+body {
+  touch-action: none;
+}
+
+button {
+  @apply cursor-pointer disabled:cursor-not-allowed;
+}
+
+.clock-text {
+  @apply font-mono;
+  @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl;
+  @apply portrait:text-7xl;
+}
