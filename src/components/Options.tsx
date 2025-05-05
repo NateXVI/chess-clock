@@ -19,9 +19,8 @@ export function Options() {
       </button>
 
       <div
-        className={`fixed inset-0 z-50 flex flex-col bg-gray-800 text-white ${
-          isOpen ? "" : "hidden"
-        }`}
+        className={`fixed inset-0 z-50 flex flex-col bg-gray-800 text-white ${isOpen ? "" : "hidden"
+          }`}
       >
         {/* Scrollable Content */}
         <div
@@ -39,16 +38,16 @@ export function Options() {
               selectedTab={tab}
             />
             <div
-              className={`grid grid-cols-1 gap-6 pt-4 ${
-                tab === "presets" ? "" : "hidden"
-              }`}
+              className={`grid grid-cols-1 gap-6 pt-4 ${tab === "presets" ? "" : "hidden"
+                }`}
             >
-              {groupedPresets.map(([group, presets]) => (
-                <div>
+              {groupedPresets.map(([group, presets], i) => (
+                <div key={i}>
                   <h2 className="text-lg font-semibold capitalize">{group}</h2>
                   <div className="grid grid-cols-2 gap-y-4 gap-x-2 landscape:grid-cols-3">
-                    {presets.map((preset) => (
+                    {presets.map((preset, i) => (
                       <button
+                        key={i}
                         className="text-xl bg-gray-600 py-4 rounded-xl w-full"
                         onClick={() => {
                           setConfig(preset);
@@ -97,9 +96,8 @@ function Tabs({ tabs, setTab, selectedTab }: TabsProps) {
         <button
           key={tab}
           onClick={() => setTab(tab)}
-          className={`px-4 py-2 rounded-lg capitalize ${
-            selectedTab === tab ? "bg-gray-700" : "bg-gray-600"
-          }`}
+          className={`px-4 py-2 rounded-lg capitalize ${selectedTab === tab ? "bg-gray-700" : "bg-gray-600"
+            }`}
         >
           {tab}
         </button>
