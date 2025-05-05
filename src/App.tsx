@@ -3,6 +3,7 @@ import { Timer } from "./components/Timer";
 import { useChessClock } from "./hooks/useChessClock";
 import { useEffect } from "react";
 import { GameControls } from "./components/GameControls";
+import { WakeLockWatcher } from "./components/WakeLockWatcher";
 
 export function App() {
   const { playerA, playerB, click, toggle, togglePause, reset } =
@@ -40,22 +41,25 @@ export function App() {
   }, []);
 
   return (
-    <div className="w-full h-[100vh] grid portrait:grid-rows-[1fr_auto_1fr] landscape:grid-cols-[1fr_auto_1fr]">
-      <Timer
-        top
-        player={playerA}
-        onClick={() => {
-          click("A");
-        }}
-      />
-      <GameControls />
-      <Timer
-        player={playerB}
-        onClick={() => {
-          click("B");
-        }}
-      />
-    </div>
+    <>
+      <WakeLockWatcher />
+      <div className="w-full h-[100vh] grid portrait:grid-rows-[1fr_auto_1fr] landscape:grid-cols-[1fr_auto_1fr]">
+        <Timer
+          top
+          player={playerA}
+          onClick={() => {
+            click("A");
+          }}
+        />
+        <GameControls />
+        <Timer
+          player={playerB}
+          onClick={() => {
+            click("B");
+          }}
+        />
+      </div>
+    </>
   );
 }
 
