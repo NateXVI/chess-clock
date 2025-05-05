@@ -10,7 +10,15 @@ export function App() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.target instanceof HTMLInputElement) {
+      const modifierIsPressed = (() => {
+        if (event.ctrlKey) return true;
+        if (event.shiftKey) return true;
+        if (event.altKey) return true;
+        if (event.metaKey) return true;
+        return false;
+      })();
+
+      if (modifierIsPressed || event.target instanceof HTMLInputElement) {
         return;
       }
       event.preventDefault();
