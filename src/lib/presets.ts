@@ -137,5 +137,3 @@ export const groupedPresets: [string, GameConfig[]][] = presets.reduce(
   },
   [] as [string, GameConfig[]][]
 );
-
-console.log(groupedPresets);
